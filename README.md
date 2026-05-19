@@ -1,198 +1,100 @@
-\# Database Manager Tool
+# Database Manager Tool
 
+Herramienta administrativa de bases de datos desarrollada en **Java + MySQL**, orientada a la administración de objetos y ejecución de sentencias SQL utilizando metadata del motor MySQL.
 
+Proyecto realizado para la clase **Teoría de Base de Datos II**.
 
-Herramienta administrativa de bases de datos desarrollada en \*\*Java + MySQL\*\*, orientada a la administración de objetos y ejecución de sentencias SQL utilizando metadata del motor MySQL.
+---
 
-
-
-Proyecto realizado para la clase \*\*Teoría de Base de Datos II\*\*.
-
-
-
-\---
-
-
-
-\# Descripción
-
-
+# Descripción
 
 El sistema permite conectarse a distintas bases de datos MySQL y administrar objetos del sistema mediante consultas SQL y metadata interna del SGBD.
 
-
-
 La aplicación incluye:
 
+- Gestión de conexiones
+- Explorador de objetos
+- Generación de DDL
+- Editor SQL
+- Administración básica de objetos
+- Ejecución de scripts SQL
 
+---
 
-\- Gestión de conexiones
+# Tecnologías Utilizadas
 
-\- Explorador de objetos
+- Java
+- JDBC
+- MySQL
+- SQL
+- Swing / JavaFX
 
-\- Generación de DDL
+---
 
-\- Editor SQL
+# Funcionalidades
 
-\- Administración básica de objetos
+## Gestión de conexiones
 
-\- Ejecución de scripts SQL
+- Inicio de sesión con usuarios MySQL
+- Manejo de múltiples conexiones
+- Administración de sesiones
 
+## Administración de objetos
 
+- Tablas
+- Vistas
+- Procedimientos almacenados
+- Funciones
+- Triggers
+- Índices
+- Usuarios
+- Tablespaces
 
-\---
+## Operaciones soportadas
 
+- Crear tablas y vistas
+- Visualizar metadata
+- Generar scripts DDL
+- Modificar objetos mediante SQL
+- Ejecutar scripts SQL
 
+## Editor SQL
 
-\# Tecnologías Utilizadas
+- Ejecución de consultas SELECT
+- Ejecución de DDL
+- Ejecución de DML
+- Visualización de resultados
 
+---
 
-
-\- Java
-
-\- JDBC
-
-\- MySQL
-
-\- SQL
-
-\- Swing / JavaFX
-
-
-
-\---
-
-
-
-\# Funcionalidades
-
-
-
-\## Gestión de conexiones
-
-
-
-\- Inicio de sesión con usuarios MySQL
-
-\- Manejo de múltiples conexiones
-
-\- Administración de sesiones
-
-
-
-\## Administración de objetos
-
-
-
-\- Tablas
-
-\- Vistas
-
-\- Procedimientos almacenados
-
-\- Funciones
-
-\- Triggers
-
-\- Índices
-
-\- Usuarios
-
-\- Tablespaces
-
-
-
-\## Operaciones soportadas
-
-
-
-\- Crear tablas y vistas
-
-\- Visualizar metadata
-
-\- Generar scripts DDL
-
-\- Modificar objetos mediante SQL
-
-\- Ejecutar scripts SQL
-
-
-
-\## Editor SQL
-
-
-
-\- Ejecución de consultas SELECT
-
-\- Ejecución de DDL
-
-\- Ejecución de DML
-
-\- Visualización de resultados
-
-
-
-\---
-
-
-
-\# Arquitectura del Proyecto
-
-
+# Arquitectura del Proyecto
 
 ```text
-
 src/
-
 │
-
 ├── connection/
-
 ├── ui/
-
 ├── metadata/
-
 ├── ddl/
-
 ├── sql/
-
 ├── models/
-
 └── utils/
-
 ```
 
+---
 
+# Instalación
 
-\---
+## Requisitos
 
+- Java JDK 17+
+- MySQL Server 8+
+- MySQL Connector/J
 
+---
 
-\# Instalación
+# Autor
 
-
-
-\## Requisitos
-
-
-
-\- Java JDK 17+
-
-\- MySQL Server 8+
-
-\- MySQL Connector/J
-
-
-
-\---
-
-
-
-\# Autor
-
-
-
-\*\*Rigoberto Madrid\*\*  
-
+**Rigoberto Madrid**  
 Teoría de Base de Datos II — UNITEC
 
