@@ -7,39 +7,50 @@ import javax.swing.table.DefaultTableModel;
 
 public class servicio_sql{
     private Connection conexion;
+    private String mensaje;
 
     public servicio_sql(Connection conexion){
         this.conexion = conexion;
     }
 
-    public DefaultTableModel ejecutar_select(String sql){
+    public DefaultTableModel ejecutar_sql(String sql){
         DefaultTableModel modelo = new DefaultTableModel();
+        mensaje = "";
 
         try{
             Statement stmt = conexion.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            ResultSetMetaData metadata = rs.getMetaData();
-            int columnas = metadata.getColumnCount();
+            boolean tiene_resultados = stmt.execute(sql);
+            if(tiene_resultados){
 
-            for(int i = 1; i <= columnas; i++){
-                modelo.addColumn(metadata.getColumnName(i));
-            }
+                ResultSet rs = stmt.getResultSet();
+                ResultSetMetaData metadata = rs.getMetaData();
 
-            while(rs.next()){
-                Object[] fila = new Object[columnas];
+                int columnas = metadata.getColumnCount();
 
                 for(int i = 1; i <= columnas; i++){
-                    fila[i - 1] = rs.getObject(i);
+                    modelo.addColumn(metadata.getColumnName(i));
                 }
 
-                modelo.addRow(fila);
+                while(rs.next()){
+                    Object[] fila = new Object[columnas];
+                    for(int i = 1; i <= columnas; i++){
+                        fila[i - 1] = rs.getObject(i);
+                    }
+                    modelo.addRow(fila);
+                }
+                mensaje = "Consulta ejecutada correctamente";
+            }else{
+                int filas_afectadas = stmt.getUpdateCount();
+                mensaje = "Sentencia ejecutada correctamente. Filas afectadas: " + filas_afectadas;
             }
-
         }catch(Exception e){
-            System.out.println("Error al ejecutar SELECT");
-            System.out.println(e.getMessage());
+            mensaje = "Error al ejecutar SQL: " + e.getMessage();
+            System.out.println(mensaje);
         }
-
         return modelo;
+    }
+
+    public String obtener_mensaje(){
+        return mensaje;
     }
 }

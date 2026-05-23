@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 public class vista_principal extends JFrame{
@@ -27,6 +28,7 @@ public class vista_principal extends JFrame{
     private JTable tabla_resultados;
     private JScrollPane scroll_tabla;
     private JButton btn_ejecutar;
+    private JButton btn_refrescar;
     private conexion_bd conexion_actual;
     private servicio_metadata metadata;
     private servicio_sql servicio_sql;
@@ -82,6 +84,14 @@ public class vista_principal extends JFrame{
         btn_ejecutar.setFocusPainted(false);
         panel_fondo.add(btn_ejecutar);
         btn_ejecutar.addActionListener(e -> ejecutar_sql());
+        
+        btn_refrescar = new JButton("Refrescar");
+        btn_refrescar.setBackground(new Color(16,185,129));
+        btn_refrescar.setForeground(Color.WHITE);
+        btn_refrescar.setFocusPainted(false);
+        panel_fondo.add(btn_refrescar);
+
+        btn_refrescar.addActionListener(e -> cargar_objetos());
 
         tabla_resultados = new JTable();
         tabla_resultados.setBackground(Color.WHITE);
@@ -120,6 +130,7 @@ public class vista_principal extends JFrame{
         scroll_arbol.setBounds(margen,y_inicio,ancho_arbol,alto - 120);
         scroll_sql.setBounds(x_derecha,y_inicio,ancho_derecha,alto_editor);
         btn_ejecutar.setBounds(x_derecha,y_inicio + alto_editor + 12,150,35);
+        btn_refrescar.setBounds(x_derecha + 165,y_inicio + alto_editor + 12,130,35);
         scroll_tabla.setBounds(x_derecha,y_inicio + alto_editor + 60,ancho_derecha,alto - (y_inicio + alto_editor + 120));
     }
 
@@ -180,11 +191,19 @@ public class vista_principal extends JFrame{
     }
 
     private void ejecutar_sql(){
-        String sql = txt_sql.getText();
-        tabla_resultados.setModel(servicio_sql.ejecutar_select(sql));
+        String sql = txt_sql.getText().trim();
 
+        if(sql.isEmpty()){
+            JOptionPane.showMessageDialog(this,"Escriba una sentencia SQL");
+            return;
+        }
+        
+        tabla_resultados.setModel(servicio_sql.ejecutar_sql(sql));
+        
         for(int i = 0; i < tabla_resultados.getColumnCount(); i++){
             tabla_resultados.getColumnModel().getColumn(i).setPreferredWidth(150);
         }
+        JOptionPane.showMessageDialog(this,servicio_sql.obtener_mensaje());
+        cargar_objetos();
     }
 }
