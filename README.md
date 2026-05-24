@@ -27,7 +27,7 @@ La aplicación incluye:
 - JDBC
 - MySQL
 - SQL
-- Swing / JavaFX
+- Swing
 
 ---
 
@@ -72,13 +72,10 @@ La aplicación incluye:
 ```text
 src/
 │
-├── connection/
+├── conexion/
 ├── ui/
-├── metadata/
-├── ddl/
-├── sql/
-├── models/
-└── utils/
+├── servicios/
+└── principal/
 ```
 
 ---
@@ -87,8 +84,8 @@ src/
 
 ## Requisitos
 
-- Java JDK 17+
-- MySQL Server 8+
+- Java JDK 22
+- MySQL Server 8.0.45
 - MySQL Connector/J
 
 ---
