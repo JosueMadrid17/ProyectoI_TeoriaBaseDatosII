@@ -3,6 +3,7 @@ import conexion.conexion_bd;
 import servicios.servicio_metadata;
 import servicios.servicio_sql;
 import servicios.servicio_ddl;
+import ui.vista_crear_objetos;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ComponentAdapter;
@@ -22,6 +23,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
+import javax.swing.JFileChooser;
+import java.io.FileWriter;
 
 public class vista_principal extends JFrame{
     private JPanel panel_fondo;
@@ -37,6 +40,7 @@ public class vista_principal extends JFrame{
     private JButton btn_refrescar;
     private JButton btn_ddl;
     private JButton btn_limpiar;
+    private JButton btn_exportar;
     private conexion_bd conexion_actual;
     private servicio_metadata metadata;
     private servicio_ddl servicio_ddl;
@@ -67,6 +71,7 @@ public class vista_principal extends JFrame{
         panel_fondo.setLayout(null);
         panel_fondo.setBackground(new Color(15,23,42));
         panel_pestanas.addTab("SQL Editor",panel_fondo);
+        panel_pestanas.addTab("Crear Objetos",new vista_crear_objetos(conexion_actual));
         panel_fondo.setBounds(0,0,getWidth(),getHeight());
 
         lbl_titulo = new JLabel("DATABASE MANAGER TOOL");
@@ -120,6 +125,14 @@ public class vista_principal extends JFrame{
         btn_limpiar.setBorderPainted(false);
         panel_fondo.add(btn_limpiar);
         btn_limpiar.addActionListener(e -> limpiar_editor());
+        
+        btn_exportar = new JButton("Exportar SQL");
+        btn_exportar.setBackground(new Color(37,99,235));
+        btn_exportar.setForeground(Color.WHITE);
+        btn_exportar.setFocusPainted(false);
+        btn_exportar.setBorderPainted(false);
+        panel_fondo.add(btn_exportar);
+        btn_exportar.addActionListener(e -> exportar_sql());
         
         arbol_objetos.addTreeSelectionListener(new TreeSelectionListener(){
             @Override
@@ -202,6 +215,12 @@ public class vista_principal extends JFrame{
             x_derecha + 495,
             y_botones,
             130,
+            35
+        );
+        btn_exportar.setBounds(
+            x_derecha + 640,
+            y_botones,
+            150,
             35
         );
         scroll_tabla.setBounds(
@@ -355,5 +374,37 @@ public class vista_principal extends JFrame{
     
     private void limpiar_editor(){
         txt_sql.setText("");
+    }
+    
+    private void exportar_sql(){
+        String sql = txt_sql.getText().trim();
+        if(sql.isEmpty()){
+            JOptionPane.showMessageDialog(this,"No hay SQL para exportar");
+            return;
+        }
+        try{
+            JFileChooser selector = new JFileChooser();
+            selector.setDialogTitle("Guardar archivo SQL");
+            int opcion = selector.showSaveDialog(this);
+            if(opcion == JFileChooser.APPROVE_OPTION){
+                String ruta = selector.getSelectedFile().getAbsolutePath();
+
+                if(!ruta.endsWith(".sql")){
+                    ruta += ".sql";
+                }
+                FileWriter writer = new FileWriter(ruta);
+                writer.write(sql);
+                writer.close();
+                JOptionPane.showMessageDialog(
+                    this,
+                    "SQL exportado correctamente"
+                );
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(
+                this,
+                "Error al exportar SQL: " + e.getMessage()
+            );
+        }
     }
 }
