@@ -357,8 +357,14 @@ public class vista_principal extends JFrame{
             ddl = servicio_ddl.obtener_ddl_tabla(nombre_objeto);
         }else if(tipo_objeto.equals("Vistas")){
             ddl = servicio_ddl.obtener_ddl_vista(nombre_objeto);
+        }else if(tipo_objeto.equals("Procedimientos")){
+            ddl = servicio_ddl.obtener_ddl_procedimiento(nombre_objeto);
+        }else if(tipo_objeto.equals("Funciones")){
+            ddl = servicio_ddl.obtener_ddl_funcion(nombre_objeto);
+        }else if(tipo_objeto.equals("Triggers")){
+            ddl = servicio_ddl.obtener_ddl_trigger(nombre_objeto);
         }else{
-            JOptionPane.showMessageDialog(this,"DDL disponible solo para tablas y vistas");
+            JOptionPane.showMessageDialog(this,"Lo siento, DDL no disponible para este objeto");
             return;
         }
         
