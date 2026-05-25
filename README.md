@@ -1,45 +1,37 @@
 # Database Manager Tool
 
-Herramienta administrativa de bases de datos desarrollada en **Java + MySQL**, orientada a la administración de objetos y ejecución de sentencias SQL utilizando metadata del motor MySQL.
+Herramienta administrativa de bases de datos desarrollada en **Java + MySQL**, orientada a la administración de objetos, exploración de metadata y ejecución de sentencias SQL utilizando información interna del motor MySQL.
 
 Proyecto realizado para la clase **Teoría de Base de Datos II**.
 
 ---
 
-# Descripción
+# Descripción General
 
-El sistema permite conectarse a distintas bases de datos MySQL y administrar objetos del sistema mediante consultas SQL y metadata interna del SGBD.
+El sistema permite conectarse a múltiples bases de datos MySQL mediante autenticación dinámica y administrar distintos objetos del sistema utilizando metadata propia del motor.
 
-La aplicación incluye:
+La aplicación fue desarrollada como una herramienta Desktop.
 
-- Gestión de conexiones
-- Explorador de objetos
-- Generación de DDL
-- Editor SQL
-- Administración básica de objetos
-- Ejecución de scripts SQL
+El proyecto implementa generación dinámica de DDL, exploración de objetos y ejecución de SQL sin utilizar frameworks ORM u otros ni `information_schema`.
 
 ---
 
-# Tecnologías Utilizadas
-
-- Java
-- JDBC
-- MySQL
-- SQL
-- Swing
-
----
-
-# Funcionalidades
+# Características Principales
 
 ## Gestión de conexiones
 
-- Inicio de sesión con usuarios MySQL
-- Manejo de múltiples conexiones
-- Administración de sesiones
+- Inicio de sesión con cualquier usuario MySQL válido
+- Manejo de múltiples conexiones guardadas
+- Selección de conexiones almacenadas
+- Cierre de sesión
+- Eliminación de conexión actual
+- Administración de distintas bases de datos MySQL
 
-## Administración de objetos
+---
+
+## Explorador de Objetos
+
+El sistema permite visualizar metadata y administrar:
 
 - Tablas
 - Vistas
@@ -48,35 +40,177 @@ La aplicación incluye:
 - Triggers
 - Índices
 - Usuarios
-- Tablespaces
 
-## Operaciones soportadas
-
-- Crear tablas y vistas
-- Visualizar metadata
-- Generar scripts DDL
-- Modificar objetos mediante SQL
-- Ejecutar scripts SQL
+---
 
 ## Editor SQL
 
-- Ejecución de consultas SELECT
-- Ejecución de DDL
-- Ejecución de DML
-- Visualización de resultados
+El editor SQL permite:
+
+- Ejecutar consultas `SELECT`
+- Ejecutar sentencias DDL
+- Ejecutar sentencias DML
+- Ejecutar scripts SQL completos
+- Visualizar resultados en tablas dinámicas
+- Limpiar editor SQL
+- Generar DDL desde metadata
+
+---
+
+## Generación de DDL
+
+El sistema puede generar automáticamente:
+
+- `CREATE TABLE`
+- `CREATE VIEW`
+- `CREATE PROCEDURE`
+- `CREATE FUNCTION`
+- `CREATE TRIGGER`
+
+utilizando metadata interna de MySQL.
+
+---
+
+## Creación Visual de Objetos
+
+El sistema incluye interfaz visual para:
+
+- Crear tablas
+- Crear vistas
+
+mediante formularios gráficos integrados en pestañas (`JTabbedPane`).
+
+---
+
+# Tecnologías Utilizadas
+
+- Java
+- Java Swing
+- JDBC
+- MySQL
+- SQL
 
 ---
 
 # Arquitectura del Proyecto
 
-```text
+```text id="q7f81r"
 src/
 │
 ├── conexion/
-├── ui/
+│   └── Manejo de conexiones JDBC
+│
+├── modelos/
+│   └── Objetos de conexión y entidades auxiliares
+│
 ├── servicios/
+│   └── Lógica SQL, metadata y generación DDL
+│
+├── ui/
+│   └── Interfaces gráficas Swing
+│
 └── principal/
+    └── Punto de inicio de la aplicación
 ```
+
+---
+
+# Funcionalidades Implementadas
+
+## Metadata y System Tables
+
+El proyecto utiliza metadata del motor MySQL mediante comandos como:
+
+```sql id="a8r4v2"
+SHOW FULL TABLES
+SHOW CREATE TABLE
+SHOW CREATE VIEW
+SHOW PROCEDURE STATUS
+SHOW FUNCTION STATUS
+SHOW TRIGGERS
+SHOW INDEX
+```
+
+---
+
+## Operaciones Soportadas
+
+### DDL
+
+- CREATE
+- ALTER
+- DROP
+
+### DML
+
+- SELECT
+- INSERT
+- UPDATE
+- DELETE
+
+### Procedimientos
+
+- CALL
+
+---
+
+# Interfaz Gráfica
+
+La aplicación fue desarrollada completamente en Java Swing utilizando:
+
+- `JFrame`
+- `JPanel`
+- `JTree`
+- `JTable`
+- `JTextArea`
+- `JTabbedPane`
+- `JScrollPane`
+
+La interfaz incluye:
+
+- Panel explorador de objetos
+- Editor SQL dinámico
+- Tabla de resultados
+- Pestañas organizadas
+- Gestión visual de conexiones
+
+---
+
+# Consideraciones Técnicas
+
+## Restricciones Cumplidas
+
+- Proyecto Desktop
+- Uso explícito de metadata MySQL
+- No uso de `information_schema`
+- No uso de frameworks ORM, etc
+- Manejo manual de JDBC
+- Generación dinámica de SQL
+
+---
+
+## Limitaciones del SGBD
+
+### Tablespaces
+
+MySQL posee un manejo limitado y diferente de tablespaces comparado con otros motores como Oracle.
+
+Debido a esto:
+
+- no se implementó administración de tablespaces,
+- ya que su manejo depende principalmente del motor InnoDB y configuraciones internas del servidor.
+
+---
+
+### Packages
+
+MySQL no posee soporte para `packages` como Oracle.
+
+---
+
+### Secuencias
+
+MySQL utiliza `AUTO_INCREMENT` en lugar de secuencias independientes.
 
 ---
 
@@ -85,13 +219,25 @@ src/
 ## Requisitos
 
 - Java JDK 22
-- MySQL Server 8.0.45
+- MySQL Server 8
 - MySQL Connector/J
+
+---
+
+# Objetivo Académico
+
+El objetivo principal del proyecto fue comprender:
+
+- el manejo de metadata,
+- la administración de objetos SQL,
+- el uso de JDBC,
+- la generación dinámica de DDL,
+- y la construcción de herramientas administrativas de bases de datos.
 
 ---
 
 # Autor
 
 **Rigoberto Madrid**  
-Teoría de Base de Datos II — UNITEC
-
+Estudiante de Ingeniería en Sistemas  
+UNITEC — Teoría de Base de Datos II
