@@ -4,6 +4,7 @@ import servicios.servicio_metadata;
 import servicios.servicio_sql;
 import servicios.servicio_ddl;
 import ui.vista_crear_objetos;
+import modelos.conexion_guardada;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ComponentAdapter;
@@ -45,9 +46,11 @@ public class vista_principal extends JFrame{
     private servicio_metadata metadata;
     private servicio_ddl servicio_ddl;
     private servicio_sql servicio_sql;
+    private conexion_guardada datos_conexion_actual;
 
-    public vista_principal(conexion_bd conexion_actual){
+    public vista_principal(conexion_bd conexion_actual,conexion_guardada datos_conexion_actual){
         this.conexion_actual = conexion_actual;
+        this.datos_conexion_actual = datos_conexion_actual;
         this.metadata = new servicio_metadata(conexion_actual.obtener_conexion());
         this.servicio_sql = new servicio_sql(conexion_actual.obtener_conexion());
         this.servicio_ddl = new servicio_ddl(conexion_actual.obtener_conexion());
@@ -72,6 +75,7 @@ public class vista_principal extends JFrame{
         panel_fondo.setBackground(new Color(15,23,42));
         panel_pestanas.addTab("SQL Editor",panel_fondo);
         panel_pestanas.addTab("Crear Objetos",new vista_crear_objetos(conexion_actual));
+        panel_pestanas.addTab("Mi Conexion",new vista_mi_conexion(datos_conexion_actual,this));
         panel_fondo.setBounds(0,0,getWidth(),getHeight());
 
         lbl_titulo = new JLabel("DATABASE MANAGER TOOL");
